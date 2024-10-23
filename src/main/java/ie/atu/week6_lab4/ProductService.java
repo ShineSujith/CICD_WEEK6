@@ -9,8 +9,11 @@ import java.util.List;
 @Service
 public class ProductService {
     private List<Product> mylist = new ArrayList<>();
-    public List<Product> addProduct(Product product){
+    public List<Product> addProduct(Product product) {
         mylist.add(product);
+        return mylist;
+    }
+    public List<Product> getProduct() {
         return mylist;
     }
 }
