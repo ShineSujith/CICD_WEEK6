@@ -1,15 +1,14 @@
 package ie.atu.week6_lab4;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
-    private List<Product> myList = new ArrayList<>();
     private ProductService myProduct;
 
     public ProductController(ProductService myProduct) {
@@ -17,11 +16,20 @@ public class ProductController {
     }
 
     @PostMapping("/newProduct")
-    public List<Product> newProduct(@RequestBody Product product){
-        myList = myProduct.addProduct(product);
-        //logic to add new product to database
+    public List<Product> newProduct(@RequestBody @Valid Product product){
+        return myProduct.addProduct(product);
+    }
 
-        //return list of products
-        return myList;
+    @GetMapping("/getProduct")
+    public List<Product> allProduct() {
+        return myProduct.getProduct();
+    }
+    @PutMapping("/updateProduct/{id}")
+    public List<Product> updateProduct(@RequestBody @Valid Product product, @PathVariable int id) {
+        return myProduct.putProduct(product, id);
+    }
+    @DeleteMapping("/deleteProduct/{id}")
+    public List<Product> deleteProduct(@PathVariable int id) {
+        return myProduct.deleteProduct(id);
     }
 }
